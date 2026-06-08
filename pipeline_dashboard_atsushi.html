@@ -535,14 +535,6 @@
 <!-- ── Main content ───────────────────────────────── -->
 <div class="section">
 
-  <!-- Monthly chart -->
-  <div class="section-title">Opportunities created per month</div>
-  <div class="chart-card">
-    <div id="month-chart">
-      <!-- injected by JS -->
-    </div>
-  </div>
-
   <!-- Stage breakdown -->
   <div class="section-title">Stage breakdown</div>
   <div id="stage-breakdown" class="stage-card" style="display:none"></div>
@@ -670,7 +662,7 @@
       d.setMonth(d.getMonth() - i);
       monthKeys.push(`${d.getFullYear()}-${pad(d.getMonth() + 1)}`);
     }
-    const monthCounts = Object.fromEntries(monthKeys.map(k => [k, 0]));
+
     allRows      = [];
     tableAllRows = [];
     const isrCounts   = {};
@@ -730,8 +722,6 @@
       totalOpen++;
       allRows.push(rowObj);
       isrCounts[isr] = (isrCounts[isr] || 0) + 1;
-      const mk = `${createdDate.getFullYear()}-${pad(createdDate.getMonth() + 1)}`;
-      if (mk in monthCounts) monthCounts[mk]++;
       if (stage) stageCounts[stage] = (stageCounts[stage] || 0) + 1;
     }
 
@@ -746,7 +736,6 @@
     document.getElementById('debug-panel').textContent = debugLog;
 
     renderSummary(totalOpen, isrCounts, skippedClosed);
-    renderMonthChart(monthCounts, monthKeys, today);
     renderStageBreakdown(stageCounts, totalOpen);
     showColWarning(cols);
     filteredRows = buildTableRows();
